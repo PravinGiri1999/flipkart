@@ -73,11 +73,61 @@ Here’s an overview of the database structure:
 The following queries were created to solve specific business questions. Each query is designed to provide insights based on sales, payments, products, and customer data.
 
 ### Easy 
-1. `Add your questions here`
-2. `Add your questions here`
-3. `Add your questions here`
-4. `Add your questions here`
-5. `Add your questions here`
+1. Retrieve a list of all customers with their corresponding product names they ordered (use an INNER JOIN between customers and sales tables).
+```sql
+SELECT 
+c.customer_name,
+p.product_name
+FROM customers AS c
+INNER JOIN sales AS s
+ON c.customer_id = s.customer_id
+INNER JOIN products AS p
+ON p.product_id = s.product_id;
+```
+2. List all products and show the details of customers who have placed orders for them. Include products that have no orders (use a LEFT JOIN between products and sales tables).
+```sql
+SELECT 
+p.product_name,
+c.customer_name
+FROM products AS p
+LEFT JOIN sales AS s
+ON p.product_id = s.product_id
+LEFT JOIN customers AS c
+ON c.customer_id = s.customer_id;
+```
+3. List all orders and their shipping status. Include orders that do not have any shipping records (use a LEFT JOINbetween sales and shippings tables).
+```sql
+SELECT
+s.order_id,
+s.customer_id,
+sh.shipping_id,
+sh.shipping_date,
+sh.delivery_status
+FROM sales AS s
+LEFT JOIN shipping AS sh
+ON s.order_id = sh.order_id;
+```
+4. Retrieve all products, including those with no orders, along with their price. Use a RIGHT JOIN between the products and sales tables.
+```sql
+SELECT 
+p.product_name,
+p.price,
+s.order_status
+FROM sales AS s
+RIGHT JOIN products AS p
+ON p.product_id = s.product_id;
+```
+5.Get a list of all customers who have placed orders, including those with no payment records. Use a FULL OUTER JOIN between the customers and payments tables.
+```sql
+SELECT
+c.customer_name,
+p.payment_status
+FROM customers AS c
+FULL OUTER JOIN sales AS s
+ON c.customer_id = s.customer_id
+FULL OUTER JOIN payments AS p
+ON p.order_id = s.order_id;
+```
    
 ### Medium to Hard
 1. `Add your questions here`
